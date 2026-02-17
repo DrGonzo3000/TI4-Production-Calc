@@ -86,38 +86,31 @@
             border-color: var(--accent-color);
         }
 
-        #extraPlanets {
+        .checkbox-row {
             grid-column: span 2;
-            margin-left: 20px;
-            border-left: 2px solid #333;
-            padding-left: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 15px;
+            row-gap: 2px;
         }
-
-        #extraPlanets label {
-            font-size: 0.75rem;
-            color: #aaa;
-        }
-
 
         .checkbox-group {
             display: flex;
             align-items: center;
             margin-top: 5px;
-            grid-column: span 2;
             background: rgba(0,0,0,0.2);
-            padding: 10px;
+            padding: 8px 10px;
             border-radius: 4px;
+            gap: 10px;
         }
 
         .checkbox-group input {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
+            margin-right: 0;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
             accent-color: var(--accent-color);
+            flex-shrink: 0;
         }
         
         .checkbox-group label {
@@ -125,6 +118,7 @@
             color: var(--text-color);
             cursor: pointer;
             user-select: none;
+            font-size: 0.85rem;
         }
 
         /* --- Dashboard --- */
@@ -179,6 +173,104 @@
         .bg-warning {
             background-color: var(--danger-color) !important;
         }
+
+        /* --- Planet Input Layout --- */
+        .planet-inputs {
+            grid-column: span 2;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        #extraPlanets {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .number-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .planet-inputs label {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-bottom: 3px;
+            text-align: center;
+        }
+
+        .planet-inputs input[type="number"] {
+            width: 100%;
+            font-size: 1rem;
+            padding: 8px;
+        }
+
+        @media (max-width: 500px) {
+            .planet-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Numeric Controls --- */
+        .number-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .num-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .num-control input[type="number"] {
+            width: 40px;
+            background: #000;
+            border: 1px solid #444;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            padding: 6px;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .num-btn {
+            width: 28px;
+            height: 28px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .num-btn:hover {
+            background: var(--accent-color);
+        }
+
+        .num-btn:active {
+            transform: scale(0.9);
+        }
+
 
         /* --- Unit List --- */
         .unit-list {
@@ -288,36 +380,50 @@
     
     <!-- Settings -->
     <div class="controls">
-        <div class="control-group">
-            <label>Planet Resource</label>
-            <input type="number" id="planetValue" value="3" min="0" onfocus="this.select()">
+        <div class="planet-inputs">
+            <div class="number-field">
+                <label>Planet Resources</label>
+                <div class="num-control">
+                    <button class="num-btn" onclick="adjustNumber('planetValue', -1)">−</button>
+                    <input type="number" id="planetValue" value="3" min="0" readonly>
+                    <button class="num-btn" onclick="adjustNumber('planetValue', 1)">+</button>
+                </div>
+            </div>
+            <div id="extraPlanets" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+
+            <div class="number-field">
+                <label>Available Budget</label>
+                <div class="num-control">
+                    <button class="num-btn" onclick="adjustNumber('resourceBudget', -1)">−</button>
+                    <input type="number" id="resourceBudget" value="6" min="0" readonly>
+                    <button class="num-btn" onclick="adjustNumber('resourceBudget', 1)">+</button>
+                </div>
+            </div>
         </div>
 
-        <!-- container where new planet inputs will appear -->
-        <div id="extraPlanets">
-        </div>
+        <div class="checkbox-row">
+            <div class="checkbox-group">
+                <input type="checkbox" id="secondDock">
+                <label for="secondDock">2nd Space Dock</label>
+            </div>
 
-        <div class="control-group">
-            <label>Available Budget</label>
-            <input type="number" id="resourceBudget" value="6" min="0" onfocus="this.select()">
-        </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="sarweenTools">
+                <label for="sarweenTools">Sarween Tools</label>
+            </div>
 
-        <div class="checkbox-group">
-            <input type="checkbox" id="secondDock">
-            <label for="secondDock">2nd Space Dock in this system</label>
-        </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="thirdDock">
+                <label for="thirdDock">3rd Space Dock</label>
+            </div>
 
-        <div class="checkbox-group">
-            <input type="checkbox" id="thirdDock">
-            <label for="thirdDock">3rd Space Dock in this system</label>
-        </div>
-
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="dockUpgrade">
-            <label for="dockUpgrade">Space Dock II (+2 Capacity)</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="dockUpgrade">
+                <label for="dockUpgrade">Space Dock II</label>
+            </div>
         </div>
     </div>
+
 
     <!-- Dashboard Status -->
     <div class="dashboard">
@@ -341,108 +447,7 @@
     </div>
 
     <!-- Units -->
-    <div class="unit-list" id="unitContainer">
-        <!-- Units injected by JS -->
-        <!-- <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Infantry</span>
-                <span class="unit-cost">1 Res = 2</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;infantry&#39;, -1)">-</button>
-                <span class="unit-count" id="count-infantry">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;infantry&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Fighter</span>
-                <span class="unit-cost">1 Res = 2</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;fighter&#39;, -1)">-</button>
-                <span class="unit-count" id="count-fighter">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;fighter&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Destroyer</span>
-                <span class="unit-cost">1 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;destroyer&#39;, -1)">-</button>
-                <span class="unit-count" id="count-destroyer">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;destroyer&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Cruiser</span>
-                <span class="unit-cost">2 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;cruiser&#39;, -1)">-</button>
-                <span class="unit-count" id="count-cruiser">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;cruiser&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Carrier</span>
-                <span class="unit-cost">3 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;carrier&#39;, -1)">-</button>
-                <span class="unit-count" id="count-carrier">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;carrier&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Dreadnought</span>
-                <span class="unit-cost">4 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;dreadnought&#39;, -1)">-</button>
-                <span class="unit-count" id="count-dreadnought">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;dreadnought&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Flagship</span>
-                <span class="unit-cost">8 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;flagship&#39;, -1)">-</button>
-                <span class="unit-count" id="count-flagship">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;flagship&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">War Sun</span>
-                <span class="unit-cost">12 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;warsun&#39;, -1)">-</button>
-                <span class="unit-count" id="count-warsun">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;warsun&#39;, 1)">+</button>
-            </div>
-        </div>
-        <div class="unit-card">
-            <div class="unit-info">
-                <span class="unit-name">Mech</span>
-                <span class="unit-cost">2 Res</span>
-            </div>
-            <div class="unit-controls">
-                <button class="ctrl-btn" onclick="changeCount(&#39;mech&#39;, -1)">-</button>
-                <span class="unit-count" id="count-mech">0</span>
-                <button class="ctrl-btn" onclick="changeCount(&#39;mech&#39;, 1)">+</button>
-            </div>
-        </div> -->
-    </div>
+    <div class="unit-list" id="unitContainer"></div>
 
     <button class="reset-btn" onclick="resetAll()">Reset Build</button>
 </div>
@@ -458,7 +463,7 @@
         { id: 'dreadnought', name: 'Dreadnought', cost: 4, batch: 1 },
         { id: 'flagship', name: 'Flagship', cost: 8, batch: 1 },
         { id: 'warsun', name: 'War Sun', cost: 12, batch: 1 },
-        { id: 'mech', name: 'Mech', cost: 2, batch: 1 }
+        //{ id: 'mech', name: 'Mech', cost: 2, batch: 1 }
     ];
 
     let counts = {};
@@ -525,7 +530,7 @@
 
         // Additional docks
         Object.values(extraInputs).forEach(inp => {
-            const val = parseInt(inp.value) || 0;
+            const val = parseInt(inp.input.value) || 0;
             totalProductionCap += val + baseCapPerDock;
         });
 
@@ -547,6 +552,11 @@
                 currentCost += count * u.cost;
             }
         });
+
+        // Apply Sarween Tools discount
+        if (document.getElementById('sarweenTools').checked) {
+            currentCost = Math.max(0, currentCost - 1);
+        }
 
         // --- 3. Update UI - Production Capacity ---
         prodDisplay.innerText = `${currentProductionCount} / ${totalProductionCap}`;
@@ -589,6 +599,7 @@
     planetInput.addEventListener('input', updateCalculations);
     budgetInput.addEventListener('input', updateCalculations);
     upgradeCheck.addEventListener('change', updateCalculations);
+    document.getElementById('sarweenTools').addEventListener('change', updateCalculations);
 
     // --- Extra Dock Logic ---
     const extraContainer = document.getElementById('extraPlanets');
@@ -601,19 +612,23 @@
     function toggleDockInput(dockId, labelText) {
         if (!extraInputs[dockId]) {
             const group = document.createElement('div');
-            group.className = 'control-group';
+            group.className = 'number-field';
+            group.style.flex = '1';
+            group.style.minWidth = '100px';
             group.innerHTML = `
                 <label>${labelText}</label>
-                <input type="number" id="${dockId}-value" value="3" min="0" onfocus="this.select()">
+                <div class="num-control">
+                    <button class="num-btn" onclick="adjustNumber('${dockId}-value', -1)">−</button>
+                    <input type="number" id="${dockId}-value" value="3" min="0" readonly>
+                    <button class="num-btn" onclick="adjustNumber('${dockId}-value', 1)">+</button>
+                </div>
             `;
-            extraContainer.appendChild(group);
+            document.getElementById('extraPlanets').appendChild(group);
 
             const input = group.querySelector('input');
-            extraInputs[dockId] = input;
-            input.addEventListener('input', updateCalculations);
+            extraInputs[dockId] = { input: input, group: group };
         } else {
-            // If it already exists, remove it
-            extraInputs[dockId].parentElement.remove();
+            extraInputs[dockId].group.remove();
             delete extraInputs[dockId];
         }
         updateCalculations();
@@ -621,11 +636,22 @@
 
     // Listen for checkbox toggles
     secondDock.addEventListener('change', () =>
-        toggleDockInput('planet2', 'Planet Resource (Dock 2)')
+        toggleDockInput('planet2', '2nd Planet Resources')
     );
     thirdDock.addEventListener('change', () =>
-        toggleDockInput('planet3', 'Planet Resource (Dock 3)')
+        toggleDockInput('planet3', '3rd Planet Resources')
     );
+
+    function adjustNumber(id, delta) {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        const current = parseInt(input.value) || 0;
+        const newValue = Math.max(0, current + delta);
+        input.value = newValue;
+
+        updateCalculations();
+    }
 
 
     // Start
